@@ -1,6 +1,6 @@
 FROM ubuntu:16.04
 
-RUN apt-get update && apt-get install -y --force-yes php7.0-fpm php7.0-mysql php7.0-curl curl php7.0-zip unzip php7.0-xml php-imagick php-redis php-json php-mbstring php-bcmath php-mcrypt
+RUN apt-get update && apt-get install -y --force-yes php7.0-fpm php7.0-mysql php7.0-curl curl php7.0-zip unzip php7.0-xml php-imagick php-redis php-json php-mbstring php-bcmath 
 
 #RUN apt-get install -y --force-yes php7.0-dev wget/
 
