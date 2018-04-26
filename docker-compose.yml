@@ -1,24 +1,31 @@
-php-fpm:
-    build: php-fpm
-    ports:
-        - 9000:9000
-    volumes:
-        - ./app:/var/www/html/
-#    links:
-#        - db
-nginx:
-    build: nginx
-    ports:
-        - 8080:80
-    volumes:
-        - ./app:/var/www/html/        
-    links:
-        - php-fpm
-#redis:
-#    build: redis
-#    ports:
-#        - 6379:6379
-#
+version: '2'
+
+services:
+
+    php-fpm:
+        build: php-fpm
+        ports:
+            - 9000:9000
+        volumes:
+            - ./app:/var/www/html/
+    #    links:
+    #        - db
+    nginx:
+        build: nginx
+        ports:
+            - 8080:80
+        volumes:
+            - ./app:/var/www/html/
+        depends_on:
+            - php-fpm
+            - redis
+    redis:
+        build: redis
+        ports:
+            - 6379:6379
+        volumes:
+            - /Users/tripresso/Documents/redis-data:/data
+
 #db:
 #    image: mysql
 #    ports:
