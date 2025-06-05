@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Badminton Scoreboard</title>
+<style>
+  body {font-family: Arial, sans-serif; text-align:center;}
+  .team {display:inline-block; width:45%; margin:1%; padding:20px; box-sizing:border-box;}
+  .blue {background-color:#e0f0ff;}
+  .red {background-color:#ffe0e0;}
+  .score {font-size:4em; margin:20px 0;}
+  button {font-size:1.2em; padding:10px 20px;}
+</style>
+</head>
+<body>
+<h1>Badminton Scoreboard</h1>
+<div class="team blue" id="blue-team">
+  <h2>Blue Team</h2>
+  <div class="score" id="blue-score">0</div>
+  <button id="blue-btn">Add Point</button>
+</div>
+<div class="team red" id="red-team">
+  <h2>Red Team</h2>
+  <div class="score" id="red-score">0</div>
+  <button id="red-btn">Add Point</button>
+</div>
+<div style="clear:both"></div>
+<button id="reset-btn">Reset Scores</button>
+<script>
+function setupTeam(buttonId, scoreId) {
+  const btn = document.getElementById(buttonId);
+  const scoreEl = document.getElementById(scoreId);
+  let pressTimer;
+  btn.addEventListener('mousedown', start);
+  btn.addEventListener('touchstart', start);
+  btn.addEventListener('mouseup', end);
+  btn.addEventListener('mouseleave', end);
+  btn.addEventListener('touchend', end);
+  function start(e) {
+    e.preventDefault();
+    pressTimer = setTimeout(function() {
+      updateScore(-1);
+      pressTimer = null;
+    }, 600); // long press threshold
+  }
+  function end(e) {
+    e.preventDefault();
+    if (pressTimer) {
+      clearTimeout(pressTimer);
+      updateScore(1);
+    }
+    pressTimer = null;
+  }
+  function updateScore(delta) {
+    let current = parseInt(scoreEl.textContent, 10);
+    if (delta > 0 && current >= 21) return;
+    current += delta;
+    if (current < 0) current = 0;
+    scoreEl.textContent = current;
+  }
+}
+setupTeam('blue-btn','blue-score');
+setupTeam('red-btn','red-score');
+
+document.getElementById('reset-btn').addEventListener('click', function() {
+  if (confirm('Are you sure you want to reset scores?')) {
+    document.getElementById('blue-score').textContent = '0';
+    document.getElementById('red-score').textContent = '0';
+  }
+});
+</script>
+</body>
+</html>
